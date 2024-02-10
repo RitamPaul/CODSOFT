@@ -37,10 +37,16 @@ def view():
     file.seek(0)
     li = file.readlines()
     if(len(li) > 0):
+        print()
         # Printing 1st line with column name
-        print(f"{'|'}{'-'*94}{'|'}")
+        print(f"{'|'}{'-'*19}{'|'}{'-'*14}{'|'}{'-'*19}{'|'}{'-'*39}{'|'}")
         print("|{:^19}|{:^14}|{:^19}|{:^39}|".format("NAME","MOBILE","MAIL","ADDRESS"))
-        print(f"{'|'}{'-'*94}{'|'}")
+        print(f"{'|'}{'-'*19}{'|'}{'-'*14}{'|'}{'-'*19}{'|'}{'-'*39}{'|'}")
+        # print(f"{'|'}{'-'*94}{'|'}")
+    else:
+        print("\nRESULT : Your contact book is empty")
+        file.close()
+        return
     for line in li:
         row = line.split('-')
         name = row[0]
@@ -49,7 +55,7 @@ def view():
         address = row[3].rstrip("\n").strip('`')
         # Printing all rows of records
         print("|{:^19}|{:^14}|{:^19}|{:^39}|".format(name, mobile, mail, address))
-        print(f"{'|'}{'-'*94}{'|'}")
+        print(f"{'|'}{'-'*19}{'|'}{'-'*14}{'|'}{'-'*19}{'|'}{'-'*39}{'|'}")
     file.close()
 
 # SEARCH Contact List
@@ -59,6 +65,10 @@ def search():
     target = input("\nEnter name or contact number to be searched = ").lower()
     li = file.readlines()
     find = 0
+    if(not len(li)):
+        print("\nRESULT : Your contact book is empty")
+        file.close()
+        return
     for line in li:
         row = line.split('-')
         if((target in row[0].lower()) or (target in row[1].lower())):
@@ -67,17 +77,17 @@ def search():
             mobile = row[1]
             mail = row[2].strip('`')
             address = row[3].rstrip("\n").strip('`')
-            # Printing 1st line with column name
+            # Printing 1st line with column names for only single time
             if(find==1):
-                print(f"{'|'}{'-'*94}{'|'}")
+                print()
+                print(f"{'|'}{'-'*19}{'|'}{'-'*14}{'|'}{'-'*19}{'|'}{'-'*39}{'|'}")
                 print("|{:^19}|{:^14}|{:^19}|{:^39}|".format("NAME","MOBILE","MAIL","ADDRESS"))
-                print(f"{'|'}{'-'*94}{'|'}")
+                print(f"{'|'}{'-'*19}{'|'}{'-'*14}{'|'}{'-'*19}{'|'}{'-'*39}{'|'}")
             print("|{:^19}|{:^14}|{:^19}|{:^39}|".format(name, mobile, mail, address))
-            print(f"{'|'}{'-'*94}{'|'}")
+            print(f"{'|'}{'-'*19}{'|'}{'-'*14}{'|'}{'-'*19}{'|'}{'-'*39}{'|'}")
     if(find<1):
         print("\nRESULT : No record found with this input")
     file.close()
-    
 
 # UPDATE Contact List
 def update():
@@ -87,6 +97,9 @@ def update():
     li = file.readlines()
     count_total = len(li)
     file.close()
+    if(not count_total):
+        print("\nRESULT : Your contact book is empty")
+        return
     # Replacing with new if found, else overwriting all records
     file = open("contact.txt", "w")
     target = input("\nEnter name or contact number to be updated = ")
@@ -135,6 +148,9 @@ def delete():
     li = file.readlines()
     count_total = len(li)
     file.close()
+    if(not count_total):
+        print("\nRESULT : Your contact book is empty")
+        return
     # Write everything except the user input
     file = open("contact.txt", "w")
     target = input("\nEnter name or contact number to be deleted = ").lower()
