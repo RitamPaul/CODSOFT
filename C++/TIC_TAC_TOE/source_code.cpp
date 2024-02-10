@@ -3,6 +3,7 @@
 using namespace std;
 
 long long score1=0, score2=0;
+string p1, p2;
 
 void display(vector<vector<char>> &arr, string &p1, char &ch1, string &p2, char &ch2){
 	cout << endl << "\tNote :- " << ch1 << "'s :- " << p1;
@@ -90,20 +91,65 @@ int match_result(vector<vector<char>> &arr, char &ch){
 		return 1;
 }
 
+void displayscore(string &p1, string &p2){
+	int n1 = p1.size(), n2 = p2.size(), i;
+
+	// printing "|-------|" with style
+	{
+		cout << endl << "\t";
+		cout << "|-------|-";
+		for(int i=1; i<=n1; ++i)
+			cout << "-";
+		cout << "---";
+		i = 1;
+		do{
+			cout << "-";
+			i *= 10;
+		}while(i <= score1);
+		cout << "-|-";
+		for(int i=1; i<=n2; ++i)
+			cout << "-";
+		cout << "---";
+		i = 1;
+		do{
+			cout << "-";
+			i *= 10;
+		}while(i <= score2);
+		cout << "-|" << endl;
+	}
+
+	// printing "| SCORE | <player1> - <score1> | <player2> - <score2> |" with style
+	cout << "\t" << "| SCORE | " << p1 << " - " << score1 << " | " << p2 << " - " << score2 << " |";
+
+	// printing "|-------|" with style
+	{
+		cout << endl << "\t";
+		cout << "|-------|-";
+		for(int i=1; i<=n1; ++i)
+			cout << "-";
+		cout << "---";
+		i = 1;
+		do{
+			cout << "-";
+			i *= 10;
+		}while(i <= score1);
+		cout << "-|-";
+		for(int i=1; i<=n2; ++i)
+			cout << "-";
+		cout << "---";
+		i = 1;
+		do{
+			cout << "-";
+			i *= 10;
+		}while(i <= score2);
+		cout << "-|" << endl;
+	}
+}
+
 void TicTacToe(vector<vector<char>> &arr){
 	
-	string p1, p2;
-    char ch1, ch2;
+	char ch1, ch2;
 	int p1_ind, p2_ind, win=0, board_fill=0;
-	
-	cout << endl << "    Note :- Player-1 will start the game always";
-	cout << endl << "            So, enter the players name accordingly\n";
-	
-	cout << endl << "Enter player-1 name = ";
-	getline(cin, p1);
-	cout << "Enter player-2 name = ";
-	getline(cin, p2);
-	cout << endl;
 	
 	// _Player-1 character entry untill valid character found_
 	for(int i=1; i>0; i++){
@@ -126,7 +172,7 @@ void TicTacToe(vector<vector<char>> &arr){
 	display(arr, p1, ch1, p2, ch2);
 	cout << endl << "REMARKS :- Start the match" << endl;
 	
-	while( win!=1 ){		
+	while( win != 1 ){		
 		
 		// _1st player's mark entry untill valid mark found_
 		for(int i=1; i>0; i++){
@@ -150,6 +196,7 @@ void TicTacToe(vector<vector<char>> &arr){
 		if(win==1){
 			cout << "Congratulations, " << p1 << " has won the game" << endl;
 			++score1;
+			displayscore(p1, p2);
 			return;
 		}
 		else if(board_fill==9){
@@ -182,6 +229,7 @@ void TicTacToe(vector<vector<char>> &arr){
 		if(win==1){
 			cout << "Congratulations, " << p2 << " has won the game" << endl;
 			++score2;
+			displayscore(p1, p2);
 			return;
 		}
 		else if(board_fill==9){
@@ -199,6 +247,15 @@ int main(){
 	cout << endl;
 	cout << "\t        Welcome to Tic Tac Toe game\n";
 	cout << "\t       Let's start and have some fun\n";
+
+	cout << endl << "    Note :- Player-1 will start the game always";
+	cout << endl << "            So, enter the players name accordingly\n";
+	
+	cout << endl << "Enter player-1 name = ";
+	getline(cin, p1);
+	cout << "Enter player-2 name = ";
+	getline(cin, p2);
+	cout << endl;
 	
 	// _Start_
 	while( quit.size()==0 || quit[0]=='y' || quit[0]=='Y' ){
@@ -211,6 +268,7 @@ int main(){
 		// Exit block
 		cout << endl << "Want to play another game ? (Y/n) = ";
 		getline(cin, quit);
+		cout << endl;
 
         // clearing the matrix memory blocks after every game round
         arr.clear();
